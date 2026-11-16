@@ -50,3 +50,13 @@
   border-radius: var(--radius); background: var(--surface-2);
 }
 .photo-picker__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* ---------- Verfügbarkeit ---------- */
+.avail {
+  flex: none; min-width: 64px; height: 48px; border: 0; border-radius: var(--radius-sm);
+  font-weight: 700; font-size: 0.85rem; background: var(--ok); color: var(--on-ok);
+}
+.avail--out { background: var(--surface-2); color: var(--muted); border: 1.5px solid var(--line); }
+/* Ausgegraut wird nur der Inhalt, der Schalter bleibt gut sichtbar */
+.item-row--off { opacity: 1; }
+.item-row--off .item-row__main { opacity: 0.45; }

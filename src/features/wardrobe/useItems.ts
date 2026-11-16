@@ -49,3 +49,26 @@ export function useArchiveItem() {
     onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.items }),
   })
 }
+
+/**
+ * „da / weg“ umschalten – optimistisch:
+ * Die Liste ändert sich sofort, gespeichert wird im Hintergrund.
+ * Schlägt das Speichern fehl (z. B. offline), wird der alte Zustand wiederhergestellt.
+ */
+export function useToggleAvailability() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, available }: { id: string; available: boolean }) => itemsRepo.update(id, { available }),
+    onMutate: async ({ id, available }) => {
+      await qc.cancelQueries({ queryKey: queryKeys.items })
+      const previous = qc.getQueryData<Item[]>(queryKeys.items)
+      qc.setQueryData<Item[]>(queryKeys.items, (items) =>
+        items?.map((i) => (i.id === id ? { ...i, available } : i)))
+      return { previous }
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) qc.setQueryData(queryKeys.items, context.previous)
+    },
+    onSettled: () => qc.invalidateQueries({ queryKey: queryKeys.items }),
+  })
+}

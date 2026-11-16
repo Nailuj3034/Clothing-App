@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom'
 import { CATEGORIES, CATEGORY_LABELS, type Category } from '../../domain/types'
 import { Chip } from '../../ui/Chip'
 import { ItemRow } from './ItemRow'
-import { useItems } from './useItems'
+import { AvailabilityToggle } from './AvailabilityToggle'
+import { useItems, useToggleAvailability } from './useItems'
 import './wardrobe.css'
 
 /** Startseite: Kleiderschrank mit Kategorie-Filter und +-Button. */
 export function WardrobePage() {
   const { data: items = [], isLoading, error } = useItems()
   const [filter, setFilter] = useState<Category | 'all'>('all')
+  const toggle = useToggleAvailability()
 
   const visible = filter === 'all' ? items : items.filter((i) => i.category === filter)
   const count = (c: Category) => items.filter((i) => i.category === c).length
@@ -29,6 +31,9 @@ export function WardrobePage() {
         ))}
       </div>
 
+      {toggle.isError && (
+        <p className="error" role="alert">Änderung nicht gespeichert – bist du offline? Versuch es gleich nochmal.</p>
+      )}
       {isLoading && <p className="muted">Lädt …</p>}
       {error && <p className="error" role="alert">{(error as Error).message}</p>}
       {!isLoading && !error && items.length === 0 && (
@@ -39,7 +44,11 @@ export function WardrobePage() {
       )}
 
       <ul className="item-list">
-        {visible.map((item) => <ItemRow key={item.id} item={item} />)}
+        {visible.map((item) => (
+          <ItemRow key={item.id} item={item} action={
+            <AvailabilityToggle item={item} onToggle={(available) => toggle.mutate({ id: item.id, available })} />
+          } />
+        ))}
       </ul>
 
       <Link to="/teil/neu" className="fab" aria-label="Teil hinzufügen">+</Link>
