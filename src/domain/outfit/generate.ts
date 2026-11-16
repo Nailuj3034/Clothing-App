@@ -1,5 +1,6 @@
 import { daysBetween } from '../date'
 import { OCCASION_LABELS, TEMP_BAND_LABELS, type Item, type WornOutfit } from '../types'
+import { pickAccessories } from './accessories'
 import { OUTFIT_CONFIG } from './config'
 import { usableItems, type ItemsBySlot } from './filters'
 import { RULES } from './rules'
@@ -31,10 +32,10 @@ const REQUIRED_SLOTS = [
  *
  * Ablauf: harte Filter → Kandidaten (alle Kombinationen) → kürzlich getragene Kombis ausschließen
  *         → mit allen Regeln bewerten → nach Punkten sortieren.
- * Reine Funktion: Datum steckt in ctx.today, Zufall kommt über rng (wird ab Task 11 für Schmuck genutzt).
+ * Danach bekommt jeder Vorschlag seinen Schmuck (eigener Schritt, damit die Kombinationen nicht explodieren).
+ * Reine Funktion: Datum steckt in ctx.today, Zufall kommt über rng.
  */
 export function generate(items: Item[], history: WornOutfit[], ctx: OutfitContext, rng: () => number): GenerateResult {
-  void rng
   const usable = usableItems(items, ctx)
 
   const missing = findMissing(items, usable, ctx)
@@ -54,6 +55,10 @@ export function generate(items: Item[], history: WornOutfit[], ctx: OutfitContex
   const ranked = fresh
     .map((c) => score(c, ruleCtx))
     .sort((a, b) => b.score - a.score || a.key.localeCompare(b.key))
+    .map((s) => {
+      const jewelry = pickAccessories(usable.accessory, ruleCtx, rng)
+      return { ...s, accessories: jewelry.items, reasons: [...s.reasons, ...jewelry.reasons] }
+    })
 
   return { ok: true, ranked }
 }
