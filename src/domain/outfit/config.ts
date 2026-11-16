@@ -36,6 +36,18 @@ export const OUTFIT_CONFIG = {
 
   suggestionsPerPage: 3,
 
+  /** Punkte der Farbharmonie-Regel */
+  colorPoints: {
+    allNeutral: 20,
+    singleAccent: 25,
+    earthBonus: 5,
+    twoAccentsSameTemp: 10,
+    clashingTemps: -20,
+    tooManyAccents: -10,
+  },
+  /** Bonus je Kleidungsstück mit ideal passendem Wärmegrad */
+  warmthFitPoints: 5,
+
   /** Schmuck: Obergrenzen pro Art und max. Wechsel gegenüber dem Standard-Set */
   accessoryLimits: { watch: 1, necklace: 2, bracelet: 3, ring: 4 } satisfies Record<AccessoryType, number>,
   maxAccessorySwaps: 2,
