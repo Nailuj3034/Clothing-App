@@ -16,9 +16,13 @@ const EMPTY: ItemInput = {
   photoPath: null, available: true,
 }
 
+/** Bestehendes Teil → Formularwerte (ohne ID und Archiv-Status). */
 function toInput(item: Item): ItemInput {
-  const { id: _id, archivedAt: _a, ...input } = item
-  return input
+  return {
+    name: item.name, category: item.category, accessoryType: item.accessoryType, isCore: item.isCore,
+    colorPrimary: item.colorPrimary, colorSecondary: item.colorSecondary, warmth: item.warmth,
+    occasions: item.occasions, photoPath: item.photoPath, available: item.available,
+  }
 }
 
 /** Prüft das Formular und gibt eine deutsche Fehlermeldung zurück (oder null). */

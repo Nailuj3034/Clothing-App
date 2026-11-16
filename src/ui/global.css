@@ -117,3 +117,18 @@ a.btn { text-decoration: none; }
   background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius);
 }
 .archived__main { display: flex; align-items: center; gap: 12px; }
+
+/* ---------- Umschalter (Segmented Control) ---------- */
+.segmented { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; gap: 4px; border-radius: 14px; background: var(--surface-2); }
+.segmented button { min-height: var(--tap); border: 0; border-radius: 10px; background: transparent; font-weight: 700; color: var(--muted); }
+.segmented button.is-on { background: var(--fg); color: var(--bg); }
+
+.segmented--3 { grid-template-columns: repeat(3, 1fr); }
+
+/* ---------- Offline-Hinweis ---------- */
+.offline-banner {
+  position: sticky; top: 0; z-index: 40;
+  padding: calc(8px + env(safe-area-inset-top)) 16px 8px; text-align: center;
+  font-size: 0.85rem; font-weight: 600; background: var(--fg); color: var(--bg);
+}
+h2.field__label { margin: 0; }
