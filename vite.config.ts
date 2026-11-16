@@ -8,5 +8,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts'],
+    // Tests in deutscher Zeitzone, damit Datumsgrenzen (23:30 Uhr, Sommerzeit) realistisch geprüft werden
+    env: { TZ: 'Europe/Berlin' },
   },
 })
