@@ -35,3 +35,14 @@ img { max-width: 100%; display: block; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* Buttons – gemeinsame Basis (Komponente in ui/Button.tsx) */
+.btn {
+  min-height: 52px; padding: 0 18px; border: 0; border-radius: 14px;
+  font-weight: 700; font-size: 0.95rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn:disabled { opacity: 0.6; }
+.btn--primary { background: var(--primary-bg); color: var(--on-accent); }
+.btn--ghost { background: var(--surface); color: var(--fg); border: 1.5px solid var(--line); }
+.btn--danger { background: transparent; color: var(--danger); border: 1.5px solid var(--danger); }
