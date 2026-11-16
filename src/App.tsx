@@ -1,15 +1,34 @@
+import { QueryClientProvider } from '@tanstack/react-query'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { queryClient } from './data/queryClient'
 import { AuthGate } from './features/auth/AuthGate'
-import { signOut } from './data/authRepo'
+import { WardrobePage } from './features/wardrobe/WardrobePage'
+import { ItemFormPage } from './features/wardrobe/ItemFormPage'
+import { OutfitPage } from './features/outfit/OutfitPage'
+import ViewerPage from './features/viewer3d/ViewerPage'
+import { ProfilePage } from './features/profile/ProfilePage'
+import { BottomNav } from './ui/BottomNav'
 
-// Vorläufige Startseite hinter dem Login; Routing und Navigation kommen in Task 4.
+/** App-Rahmen: Daten-Cache, Login-Schutz, Routing und Navigation unten. */
 export default function App() {
   return (
-    <AuthGate>
-      <main style={{ padding: '24px 16px' }}>
-        <h1 className="page-title">Kleiderschrank</h1>
-        <p style={{ color: 'var(--muted)' }}>Du bist eingeloggt. Die App wird gerade aufgebaut.</p>
-        <button className="btn btn--ghost" onClick={() => signOut()}>Abmelden</button>
-      </main>
-    </AuthGate>
+    <QueryClientProvider client={queryClient}>
+      <AuthGate>
+        <BrowserRouter>
+          <div className="app">
+            <Routes>
+              <Route path="/" element={<WardrobePage />} />
+              <Route path="/teil/neu" element={<ItemFormPage />} />
+              <Route path="/teil/:id" element={<ItemFormPage />} />
+              <Route path="/outfit" element={<OutfitPage />} />
+              <Route path="/3d" element={<ViewerPage />} />
+              <Route path="/profil" element={<ProfilePage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+            <BottomNav />
+          </div>
+        </BrowserRouter>
+      </AuthGate>
+    </QueryClientProvider>
   )
 }
