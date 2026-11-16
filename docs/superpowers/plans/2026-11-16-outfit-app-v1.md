@@ -26,17 +26,17 @@
 
 ## Review Focus
 
-1. **Leerer oder lückenhafter Schrank** (z. B. keine Schuhe für „Sport“): verständliche Meldung, was fehlt, statt Absturz oder leerer Seite → Test in Aufgabe 10.
-2. **Alle Kombinationen in den letzten 3 Tagen getragen:** eigene Meldung statt „nichts gefunden“ → Test in Aufgabe 10.
-3. **Datum in lokaler Zeit:** Wer um 23:30 in Leipzig „Heute getragen“ tippt, speichert den heutigen Tag, nicht den UTC-Tag → Test für `toLocalDateString` in Aufgabe 8.
-4. **Archivierte oder nicht verfügbare Teile** tauchen nie in Vorschlägen auf, auch nicht als Schmuck → Tests in Aufgabe 8 und 11.
-5. **Sport-Anlass mit Schmuck:** Beim Sport nur die Uhr, auch wenn Ketten als Standard-Set markiert sind → Test in Aufgabe 11.
+1. **Leerer oder lückenhafter Schrank** (z. B. keine Schuhe für „Sport“): verständliche Meldung, was fehlt, statt Absturz oder leerer Seite → Test in Task 10.
+2. **Alle Kombinationen in den letzten 3 Tagen getragen:** eigene Meldung statt „nichts gefunden“ → Test in Task 10.
+3. **Datum in lokaler Zeit:** Wer um 23:30 in Leipzig „Heute getragen“ tippt, speichert den heutigen Tag, nicht den UTC-Tag → Test für `toLocalDateString` in Task 8.
+4. **Archivierte oder nicht verfügbare Teile** tauchen nie in Vorschlägen auf, auch nicht als Schmuck → Tests in Task 8 und 11.
+5. **Sport-Anlass mit Schmuck:** Beim Sport nur die Uhr, auch wenn Ketten als Standard-Set markiert sind → Test in Task 11.
 
 ---
 
 ## Meilenstein 1: Setup, Supabase, Datenmodell, Kleiderschrank
 
-### Aufgabe 1: Projektgerüst
+### Task 1: Projektgerüst
 
 **Dateien:** `package.json`, `vite.config.ts`, `tsconfig*.json`, `index.html`, `.gitignore`, `.env.example`, `src/main.tsx`, `src/App.tsx`, `src/ui/tokens.css`, `src/ui/global.css`, `README.md` (Kurzfassung)
 
@@ -47,7 +47,7 @@
 - [ ] Prüfen: `npm run build` und `npm test` laufen ohne Fehler (Vitest mit einem Platzhalter-Test)
 - [ ] Commit `chore: scaffold vite react-ts project`
 
-### Aufgabe 2: Domain-Typen und Farbpalette (TDD)
+### Task 2: Domain-Typen und Farbpalette (TDD)
 
 **Dateien:** `src/domain/types.ts`, `src/domain/palette.ts`, `src/domain/palette.test.ts`
 
@@ -76,7 +76,7 @@ Dazu die deutschen Labels als `CATEGORY_LABELS`, `OCCASION_LABELS`, `WARMTH_LABE
 - [ ] Laufen lassen → FAIL, implementieren → PASS
 - [ ] Commit `feat(domain): add types and color palette`
 
-### Aufgabe 3: Supabase-Datenbank, Client und Login
+### Task 3: Supabase-Datenbank, Client und Login
 
 **Dateien:** `supabase/migrations/0001_init.sql`, `src/data/supabase.ts`, `src/features/auth/LoginPage.tsx`, `src/features/auth/AuthGate.tsx`, `src/features/auth/useSession.ts`
 
@@ -91,7 +91,7 @@ Dazu die deutschen Labels als `CATEGORY_LABELS`, `OCCASION_LABELS`, `WARMTH_LABE
 - [ ] Prüfen: `npm run dev`, Login mit Julians Nutzer klappt, falsches Passwort zeigt eine Meldung
 - [ ] Commit `feat: supabase schema, client and login`
 
-### Aufgabe 4: App-Rahmen und Kleiderschrank (ohne Foto)
+### Task 4: App-Rahmen und Kleiderschrank (ohne Foto)
 
 **Dateien:** `src/data/mappers.ts` (+ `mappers.test.ts`), `src/data/itemsRepo.ts`, `src/data/queryClient.ts`,
 `src/ui/BottomNav.tsx`, `src/ui/Button.tsx`, `src/ui/Chip.tsx`, `src/features/wardrobe/WardrobePage.tsx`,
@@ -124,7 +124,7 @@ itemsRepo.removeForever(id: string): Promise<void>
 
 ## Meilenstein 2: Foto, Verfügbarkeit, Deployment
 
-### Aufgabe 5: Foto aufnehmen, komprimieren, speichern
+### Task 5: Foto aufnehmen, komprimieren, speichern
 
 **Dateien:** `src/lib/compressImage.ts`, `src/data/photosRepo.ts`, `src/features/wardrobe/PhotoPicker.tsx`, `src/features/wardrobe/ItemThumb.tsx`
 
@@ -144,7 +144,7 @@ photosRepo.signedUrl(path: string): Promise<string>              // 1 h, via Rea
   die Datei-URL ohne Signatur liefert einen Fehler (privat)
 - [ ] Commit `feat: item photos with client-side compression`
 
-### Aufgabe 6: Verfügbarkeit mit einem Tap
+### Task 6: Verfügbarkeit mit einem Tap
 
 **Dateien:** `src/features/wardrobe/AvailabilityToggle.tsx`, `src/features/wardrobe/useItems.ts`
 
@@ -153,7 +153,7 @@ photosRepo.signedUrl(path: string): Promise<string>              // 1 h, via Rea
 - [ ] Prüfen: Toggle reagiert sofort; im Flugmodus wird die Änderung zurückgesetzt und ein Hinweis erscheint
 - [ ] Commit `feat: one-tap availability toggle`
 
-### Aufgabe 7: Deployment auf Vercel
+### Task 7: Deployment auf Vercel
 
 **Dateien:** `vercel.json` (SPA-Rewrite auf `/index.html`)
 
@@ -168,9 +168,9 @@ photosRepo.signedUrl(path: string): Promise<string>              // 1 h, via Rea
 
 ## Meilenstein 3: Outfit-Generator, Getragen, Verlauf
 
-Alle Domain-Aufgaben strikt per TDD: erst Test, dann FAIL sehen, dann implementieren, dann PASS.
+Alle Domain-Tasks strikt per TDD: erst Test, dann FAIL sehen, dann implementieren, dann PASS.
 
-### Aufgabe 8: Konfiguration, Datum und harte Filter
+### Task 8: Konfiguration, Datum und harte Filter
 
 **Dateien:** `src/domain/outfit/config.ts`, `src/domain/date.ts`, `src/domain/outfit/filters.ts` (+ Tests)
 
@@ -199,7 +199,7 @@ usableItems(items: Item[], ctx: OutfitContext): Record<'top'|'bottom'|'shoes'|'j
   bei `frost` nur `warm`-Kleidung; bei `hot` keine Jacken in der Liste; Wärmegrad-Filter gilt nicht für Accessoires
 - [ ] Implementieren, PASS, Commit `feat(domain): outfit config, dates and filters`
 
-### Aufgabe 9: Bewertungsregeln
+### Task 9: Bewertungsregeln
 
 **Dateien:** `src/domain/outfit/rules/types.ts`, `colorHarmony.ts`, `warmthFit.ts`, `recentlyWorn.ts`, `index.ts` (+ je ein Test)
 
@@ -220,7 +220,7 @@ zwei Akzente gleicher Temperatur +10; Akzente unterschiedlicher Temperatur −20
   Kalt mit Warm-Hoodie bekommt +5 für das Teil; gestern getragene Schuhe −8, vorgestern getragene 0
 - [ ] Implementieren, PASS, Commit `feat(domain): scoring rules`
 
-### Aufgabe 10: Generator und Blättern
+### Task 10: Generator und Blättern
 
 **Dateien:** `src/domain/outfit/generate.ts` (+ Test)
 
@@ -232,7 +232,7 @@ generate(items: Item[], history: WornOutfit[], ctx: OutfitContext, rng: () => nu
 pageSuggestions(ranked: OutfitSuggestion[], page: number, rng: () => number): OutfitSuggestion[]
 ```
 `key` = sortierte IDs der Kleidung (ohne Schmuck), mit `|` verbunden. Bei gleichem Score ist die Reihenfolge stabil (nach `key`).
-Schmuck kommt aus Aufgabe 11; bis dahin `accessories: []`.
+Schmuck kommt aus Task 11; bis dahin `accessories: []`.
 
 - [ ] Tests: vollständiges Outfit aus Minimal-Schrank; Jacke ist bei `cool` dabei und bei `warm` nicht; Sortierung nach Score absteigend;
   Kombination von vor 2 Tagen ist ausgeschlossen, von vor 4 Tagen nicht;
@@ -242,7 +242,7 @@ Schmuck kommt aus Aufgabe 11; bis dahin `accessories: []`.
   `pageSuggestions` Seite 0 = Plätze 1–3, Seite 1 = 4–6; über das Ende hinaus 3 verschiedene aus dem oberen Drittel (deterministisch mit festem `rng`)
 - [ ] Implementieren, PASS, Commit `feat(domain): outfit generator`
 
-### Aufgabe 11: Schmuck auswählen
+### Task 11: Schmuck auswählen
 
 **Dateien:** `src/domain/outfit/accessories.ts` (+ Test), `generate.ts` (Aufruf ergänzen)
 
@@ -258,7 +258,7 @@ sonst ein Standard-Stück derselben Art ersetzt. Pro Wechsel ein Begründungssat
 - [ ] In `generate` aufrufen (einmal pro Vorschlag, nach dem Ranking der Top-Kandidaten), Begründungen anhängen
 - [ ] PASS, Commit `feat(domain): jewelry selection`
 
-### Aufgabe 12: Outfit-Seite und „Heute getragen“
+### Task 12: Outfit-Seite und „Heute getragen“
 
 **Dateien:** `src/data/outfitsRepo.ts`, `src/features/outfit/OutfitPage.tsx`, `TempBandPicker.tsx`, `OccasionPicker.tsx`,
 `SuggestionCard.tsx`, `useSuggestions.ts`, `src/features/outfit/selectedOutfitStore.ts`
@@ -279,7 +279,7 @@ useSelectedOutfit(): [OutfitSuggestion | null, (o: OutfitSuggestion) => void]   
 - [ ] Prüfen am Handy mit echten Teilen
 - [ ] Commit `feat: outfit suggestions and wear tracking`
 
-### Aufgabe 13: Verlauf und Archiv
+### Task 13: Verlauf und Archiv
 
 **Dateien:** `src/features/outfit/HistoryList.tsx`, `src/features/profile/ProfilePage.tsx`, `src/features/profile/ArchivePage.tsx`
 
@@ -294,7 +294,7 @@ useSelectedOutfit(): [OutfitSuggestion | null, (o: OutfitSuggestion) => void]   
 
 ## Meilenstein 4: 3D-Ansicht
 
-### Aufgabe 14: Mannequin mit Kleidung und Schmuck
+### Task 14: Mannequin mit Kleidung und Schmuck
 
 **Dateien:** `src/features/viewer3d/ViewerPage.tsx` (lazy importiert), `Mannequin.tsx`, `garments/registry.ts`,
 `garments/Top.tsx`, `Bottom.tsx`, `Shoes.tsx`, `Jacket.tsx`, `garments/Jewelry.tsx`
@@ -319,7 +319,7 @@ Später ersetzt ein GLB-Loader einzelne Einträge im Register, ohne dass sich `M
 
 ## Meilenstein 5: PWA, Feinschliff, README
 
-### Aufgabe 15: Installierbar, Theme, Offline-Hinweis, README
+### Task 15: Installierbar, Theme, Offline-Hinweis, README
 
 **Dateien:** `vite.config.ts`, `public/icons/*`, `src/ui/theme.ts`, `src/ui/OfflineBanner.tsx`, `src/features/profile/ProfilePage.tsx`, `README.md`
 
