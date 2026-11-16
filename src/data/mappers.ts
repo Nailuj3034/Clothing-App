@@ -1,4 +1,4 @@
-import type { AccessoryType, Category, ColorKey, Item, Occasion, Warmth } from '../domain/types'
+import type { AccessoryType, Category, ColorKey, Item, Occasion, TempBand, Warmth, WornOutfit } from '../domain/types'
 
 /** Eine Zeile der Tabelle `items`, so wie Supabase sie liefert (snake_case). */
 export interface ItemRow {
@@ -84,4 +84,26 @@ export function toItemPatch(patch: Partial<ItemInput>): Partial<ItemRowInsert> {
     if (value !== undefined) out[COLUMN[key as keyof ItemInput]] = value
   }
   return out as Partial<ItemRowInsert>
+}
+
+/** Zeile aus `outfits` inkl. verknüpfter `outfit_items` (per Supabase-Join geladen). */
+export interface OutfitRow {
+  id: string
+  user_id: string
+  worn_on: string
+  temp_band: TempBand
+  occasion: Occasion
+  created_at: string
+  outfit_items: { item_id: string; slot: Category }[]
+}
+
+/** Datenbank-Zeile → getragenes Outfit */
+export function mapOutfitRow(row: OutfitRow): WornOutfit {
+  return {
+    id: row.id,
+    wornOn: row.worn_on,
+    tempBand: row.temp_band,
+    occasion: row.occasion,
+    itemIds: row.outfit_items.map((oi) => oi.item_id),
+  }
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mapItemRow, toItemPatch, toItemRow, type ItemRow } from './mappers'
+import { mapItemRow, mapOutfitRow, toItemPatch, toItemRow, type ItemRow } from './mappers'
 import type { ItemInput } from './mappers'
 
 const row: ItemRow = {
@@ -49,5 +49,14 @@ describe('toItemPatch', () => {
   it('übersetzt nur die übergebenen Felder', () => {
     expect(toItemPatch({ available: false })).toEqual({ available: false })
     expect(toItemPatch({ photoPath: null, colorSecondary: 'red' })).toEqual({ photo_path: null, color_secondary: 'red' })
+  })
+})
+
+describe('mapOutfitRow', () => {
+  it('übersetzt ein getragenes Outfit inkl. Teile-IDs', () => {
+    expect(mapOutfitRow({
+      id: 'o1', user_id: 'u1', worn_on: '2026-11-16', temp_band: 'cool', occasion: 'uni', created_at: 'x',
+      outfit_items: [{ item_id: 'a', slot: 'top' }, { item_id: 'b', slot: 'bottom' }],
+    })).toEqual({ id: 'o1', wornOn: '2026-11-16', tempBand: 'cool', occasion: 'uni', itemIds: ['a', 'b'] })
   })
 })

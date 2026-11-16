@@ -15,4 +15,5 @@ export const queryKeys = {
   items: ['items'] as const,
   archivedItems: ['items', 'archived'] as const,
   allItems: ['items', 'all'] as const,
+  outfits: ['outfits'] as const,
 }
