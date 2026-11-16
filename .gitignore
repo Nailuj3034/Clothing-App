@@ -27,3 +27,6 @@ dist-ssr
 .env.local
 # Arbeitsdateien des Planungs-Workflows
 .superpowers/
+
+# wird beim Bauen aus node_modules kopiert (scripts/copy-ort.mjs)
+public/ort/

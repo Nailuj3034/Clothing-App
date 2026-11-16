@@ -34,9 +34,16 @@ export default defineConfig({
         globIgnores: ['**/*cyrillic*', '**/*greek*', '**/*vietnamese*'],
         navigateFallback: '/index.html',
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+        // ONNX-Runtime (21 MB) nicht vorab, sondern beim ersten Freistellen laden und dann dauerhaft speichern
+        runtimeCaching: [{
+          urlPattern: ({ url }) => url.pathname.startsWith('/ort/'),
+          handler: 'CacheFirst',
+          options: { cacheName: 'ort-runtime', expiration: { maxEntries: 4 } },
+        }],
       },
     }),
   ],
+  worker: { format: 'es' },
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts'],

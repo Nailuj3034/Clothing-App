@@ -13,6 +13,8 @@ import { OfflineBanner } from './ui/OfflineBanner'
 
 // 3D-Ansicht samt three.js erst laden, wenn der Tab geöffnet wird
 const ViewerPage = lazy(() => import('./features/viewer3d/ViewerPage'))
+// Modell-Labor: nur über /labor erreichbar (nicht in der Navigation)
+const LaborPage = lazy(() => import('./features/labor/LaborPage').then((m) => ({ default: m.LaborPage })))
 
 /** App-Rahmen: Daten-Cache (im Browser gespeichert), Login-Schutz, Routing und Navigation unten. */
 export default function App() {
@@ -34,6 +36,7 @@ export default function App() {
               } />
               <Route path="/profil" element={<ProfilePage />} />
               <Route path="/profil/archiv" element={<ArchivePage />} />
+              <Route path="/labor" element={<Suspense fallback={null}><LaborPage /></Suspense>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <BottomNav />
