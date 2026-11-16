@@ -7,6 +7,7 @@ import { ItemFormPage } from './features/wardrobe/ItemFormPage'
 import { OutfitPage } from './features/outfit/OutfitPage'
 import ViewerPage from './features/viewer3d/ViewerPage'
 import { ProfilePage } from './features/profile/ProfilePage'
+import { ArchivePage } from './features/profile/ArchivePage'
 import { BottomNav } from './ui/BottomNav'
 
 /** App-Rahmen: Daten-Cache, Login-Schutz, Routing und Navigation unten. */
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="/outfit" element={<OutfitPage />} />
               <Route path="/3d" element={<ViewerPage />} />
               <Route path="/profil" element={<ProfilePage />} />
+              <Route path="/profil/archiv" element={<ArchivePage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <BottomNav />

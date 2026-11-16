@@ -72,3 +72,36 @@ export function useToggleAvailability() {
     onSettled: () => qc.invalidateQueries({ queryKey: queryKeys.items }),
   })
 }
+
+/** Alle Teile inkl. archivierter – für den Verlauf. */
+export function useAllItems() {
+  return useQuery({ queryKey: queryKeys.allItems, queryFn: itemsRepo.listAll })
+}
+
+export function useArchivedItems() {
+  return useQuery({ queryKey: queryKeys.archivedItems, queryFn: itemsRepo.listArchived })
+}
+
+/** Archiviertes Teil zurück in den Schrank holen. */
+export function useRestoreItem() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => itemsRepo.restore(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.items }), // trifft auch archived/all
+  })
+}
+
+/** Endgültig löschen: erst das Foto, dann das Teil (verschwindet dabei auch aus alten Outfits). */
+export function useDeleteForever() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (item: Item) => {
+      if (item.photoPath) await photosRepo.remove(item.photoPath).catch(() => undefined)
+      await itemsRepo.removeForever(item.id)
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.items })
+      qc.invalidateQueries({ queryKey: queryKeys.outfits })
+    },
+  })
+}

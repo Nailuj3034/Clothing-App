@@ -5,6 +5,7 @@ import type { OutfitSuggestion } from '../../domain/outfit/generate'
 import type { OutfitContext } from '../../domain/outfit/types'
 import type { Occasion, TempBand } from '../../domain/types'
 import { useItems } from '../wardrobe/useItems'
+import { HistoryList } from './HistoryList'
 import { OccasionPicker } from './OccasionPicker'
 import { SuggestionCard } from './SuggestionCard'
 import { TempBandPicker } from './TempBandPicker'
@@ -41,6 +42,7 @@ export function OutfitPage() {
   const saveWorn = useSaveWorn()
   const [, select] = useSelectedOutfit()
   const [savedMsg, setSavedMsg] = useState<string | null>(null)
+  const [view, setView] = useState<'suggest' | 'history'>('suggest')
 
   function update(patch: Partial<typeof choice>) {
     const nextChoice = { ...choice, ...patch }
@@ -80,6 +82,14 @@ export function OutfitPage() {
     <main className="page">
       <h1 className="page-title">Outfit</h1>
 
+      <div className="segmented" role="tablist" aria-label="Ansicht">
+        <button type="button" role="tab" aria-selected={view === 'suggest'}
+          className={view === 'suggest' ? 'is-on' : ''} onClick={() => setView('suggest')}>Vorschläge</button>
+        <button type="button" role="tab" aria-selected={view === 'history'}
+          className={view === 'history' ? 'is-on' : ''} onClick={() => setView('history')}>Verlauf</button>
+      </div>
+
+      {view === 'history' ? <HistoryList /> : (<>
       <section className="stack" aria-label="Auswahl">
         <TempBandPicker value={choice.tempBand} onChange={(tempBand) => update({ tempBand })} />
         <OccasionPicker value={choice.occasion} onChange={(occasion) => update({ occasion })} />
@@ -105,6 +115,7 @@ export function OutfitPage() {
       {result?.ok && (
         <button type="button" className="btn btn--ghost" onClick={next}>Neue Vorschläge</button>
       )}
+      </>)}
     </main>
   )
 }

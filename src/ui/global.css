@@ -109,3 +109,11 @@ img { max-width: 100%; display: block; }
 .confirm { border: 1.5px solid var(--danger); border-radius: var(--radius); padding: 14px; }
 .confirm p { margin: 0 0 12px; }
 .confirm__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+a.btn { text-decoration: none; }
+
+/* ---------- Archiv ---------- */
+.archived {
+  display: flex; flex-direction: column; gap: 10px; padding: 10px;
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius);
+}
+.archived__main { display: flex; align-items: center; gap: 12px; }
