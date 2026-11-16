@@ -7,7 +7,8 @@ import {
 import type { ItemInput } from '../../data/mappers'
 import { Chip } from '../../ui/Chip'
 import { ColorPicker } from './ColorPicker'
-import { useArchiveItem, useItems, useSaveItem } from './useItems'
+import { PhotoPicker } from './PhotoPicker'
+import { useArchiveItem, useItems, useSaveItem, type PhotoChange } from './useItems'
 
 const EMPTY: ItemInput = {
   name: '', category: 'top', accessoryType: null, isCore: false,
@@ -40,6 +41,7 @@ export function ItemFormPage() {
   const [error, setError] = useState<string | null>(null)
   const [confirmArchive, setConfirmArchive] = useState(false)
   const [showSecondary, setShowSecondary] = useState(false)
+  const [photo, setPhoto] = useState<PhotoChange>({ kind: 'keep' })
   const save = useSaveItem()
   const archive = useArchiveItem()
 
@@ -56,7 +58,7 @@ export function ItemFormPage() {
     if (message) return setError(message)
     setError(null)
     try {
-      await save.mutateAsync({ id, input: { ...form, name: form.name.trim() } })
+      await save.mutateAsync({ id, input: { ...form, name: form.name.trim() }, photo })
       navigate('/')
     } catch (err) {
       setError((err as Error).message)
@@ -80,6 +82,11 @@ export function ItemFormPage() {
       </header>
 
       <form className="item-form" onSubmit={handleSubmit} noValidate>
+        <fieldset className="field">
+          <legend className="field__label">Foto (optional)</legend>
+          <PhotoPicker currentPath={form.photoPath} change={photo} onChange={setPhoto} />
+        </fieldset>
+
         <label className="field">
           <span className="field__label">Name</span>
           <input id="item-name" className="input" value={form.name} maxLength={80}
