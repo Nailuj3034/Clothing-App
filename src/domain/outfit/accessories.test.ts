@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { AccessoryType, Item, WornOutfit } from '../types'
 import { makeItem } from '../testUtils'
 import { pickAccessories } from './accessories'
-import { generate } from './generate'
+import { generate, JEWELRY_VARIANTS } from './generate'
 import type { RuleContext } from './rules/types'
 
 const ctx = (over: Partial<RuleContext> = {}): RuleContext =>
@@ -80,5 +80,26 @@ describe('generate mit Schmuck', () => {
     const r = generate(items, [], { tempBand: 'warm', occasion: 'uni', today: '2026-11-16' }, rng0)
     if (!r.ok) throw new Error(r.reason)
     expect(r.ranked[0].accessories.map((i) => i.id)).toEqual(['uhr'])
+  })
+})
+
+describe('generate mit vielen Kombinationen', () => {
+  it('berechnet nur wenige Schmuck-Varianten und verteilt sie reihum', () => {
+    const items = [
+      ...Array.from({ length: 4 }, (_, i) => makeItem({ id: `t${i}`, category: 'top' })),
+      ...Array.from({ length: 4 }, (_, i) => makeItem({ id: `b${i}`, category: 'bottom' })),
+      makeItem({ id: 's', category: 'shoes' }),
+      ...Array.from({ length: 8 }, (_, i) => acc(`r${i}`, 'ring', { name: `Ring ${i}` })),
+    ]
+    let x = 0.123
+    const rng = () => (x = (x * 9301 + 0.49297) % 1)
+    const r = generate(items, [], { tempBand: 'warm', occasion: 'uni', today: '2026-11-16' }, rng)
+    if (!r.ok) throw new Error(r.reason)
+    expect(JEWELRY_VARIANTS).toBe(6)
+    expect(r.ranked.length).toBe(16)
+    const jewelryKey = (i: number) => r.ranked[i].accessories.map((a) => a.id).join(',')
+    for (let i = 0; i + JEWELRY_VARIANTS < r.ranked.length; i++) {
+      expect(jewelryKey(i + JEWELRY_VARIANTS)).toBe(jewelryKey(i))
+    }
   })
 })

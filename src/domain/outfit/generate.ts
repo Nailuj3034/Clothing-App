@@ -21,6 +21,13 @@ export type GenerateResult =
   | { ok: true; ranked: OutfitSuggestion[] }
   | { ok: false; reason: string }
 
+/**
+ * Anzahl unterschiedlicher Schmuck-Varianten pro Durchlauf.
+ * Die Schmuckwahl hängt nicht von der Kleidung ab – deshalb werden nur wenige Varianten berechnet
+ * und reihum verteilt, statt für jede der (teils zehntausenden) Kombinationen neu zu rechnen.
+ */
+export const JEWELRY_VARIANTS = 6
+
 const REQUIRED_SLOTS = [
   { slot: 'top', label: 'Oberteile' },
   { slot: 'bottom', label: 'Unterteile' },
@@ -55,12 +62,14 @@ export function generate(items: Item[], history: WornOutfit[], ctx: OutfitContex
   const ranked = fresh
     .map((c) => score(c, ruleCtx))
     .sort((a, b) => b.score - a.score || a.key.localeCompare(b.key))
-    .map((s) => {
-      const jewelry = pickAccessories(usable.accessory, ruleCtx, rng)
-      return { ...s, accessories: jewelry.items, reasons: [...s.reasons, ...jewelry.reasons] }
-    })
 
-  return { ok: true, ranked }
+  const variants = Array.from({ length: JEWELRY_VARIANTS }, () => pickAccessories(usable.accessory, ruleCtx, rng))
+  const withJewelry = ranked.map((s, i) => {
+    const jewelry = variants[i % JEWELRY_VARIANTS]
+    return { ...s, accessories: jewelry.items, reasons: [...s.reasons, ...jewelry.reasons] }
+  })
+
+  return { ok: true, ranked: withJewelry }
 }
 
 /**
