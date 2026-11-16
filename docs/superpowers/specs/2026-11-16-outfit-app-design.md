@@ -238,3 +238,18 @@ Noch meine Annahmen:
 ## 10. Dem Builder überlassen
 Exakte Hex-Werte der Palette und Theme-Tokens, Icons, genaue Regel-Gewichte (Startwerte in `config.ts`),
 Komponentenstruktur innerhalb der Features, App-Icon.
+
+## 11. Notiz für die Überarbeitung (Julian, nach M4)
+
+Die 3D-Ansicht soll später deutlich realistischer werden:
+- Realistische Figur, wählbar männlich / weiblich (GLB-Modelle statt Grundformen)
+- Aus einem hochgeladenen Foto soll automatisch ein 3D-Modell des Teils entstehen
+  (Beispiel: beige Timberland Premium Boots) und in der 3D-Ansicht erscheinen
+
+Einschätzung und vorgeschlagene Reihenfolge:
+1. Realistische Figur m/w + Foto→3D für feste Teile (Schuhe, Schmuck, Caps) über ein Backend
+   (Supabase Edge Function, API-Schlüssel nur dort); Modelle an festen Ankerpunkten platzieren
+2. Kleidung zunächst als Vorlagen-Modelle pro Art mit dem eigenen Foto als Textur
+3. Echte Kleidungs-Scans mit Körperanpassung (Rigging/Fitting) zuletzt, da technisch am schwierigsten
+   und abhängig von Qualität und Kosten externer KI-Dienste
+Andockstelle: `GARMENT_REGISTRY` in `src/features/viewer3d/garments/registry.ts`.
