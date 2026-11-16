@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { toLocalDateString } from '../../domain/date'
 import type { OutfitSuggestion } from '../../domain/outfit/generate'
 import type { OutfitContext } from '../../domain/outfit/types'
-import type { Occasion, TempBand } from '../../domain/types'
 import { useItems } from '../wardrobe/useItems'
 import { HistoryList } from './HistoryList'
+import { loadChoice, saveChoice } from './outfitChoice'
 import { OccasionPicker } from './OccasionPicker'
 import { SuggestionCard } from './SuggestionCard'
 import { TempBandPicker } from './TempBandPicker'
@@ -13,21 +13,6 @@ import { useSelectedOutfit } from './selectedOutfitStore'
 import { useRecentOutfits, useSaveWorn } from './useOutfits'
 import { useSuggestions } from './useSuggestions'
 import './outfit.css'
-
-const STORAGE_KEY = 'outfit-context'
-
-/** Letzte Auswahl aus dem Browser lesen (darf fehlen oder blockiert sein). */
-function loadChoice(): { tempBand: TempBand; occasion: Occasion } {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null')
-    if (saved?.tempBand && saved?.occasion) return saved
-  } catch { /* ignorieren */ }
-  return { tempBand: 'cool', occasion: 'uni' }
-}
-
-function saveChoice(choice: { tempBand: TempBand; occasion: Occasion }) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(choice)) } catch { /* ignorieren */ }
-}
 
 /** Outfit-Tab: Temperatur + Anlass wählen, Vorschläge ansehen, als getragen speichern. */
 export function OutfitPage() {

@@ -1,0 +1,9 @@
+.page--viewer { gap: 10px; }
+.viewer {
+  height: min(62vh, 560px); border-radius: 20px; overflow: hidden;
+  background: radial-gradient(120% 80% at 50% 0%, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1.5px solid var(--line);
+  touch-action: none; /* Gesten drehen die Figur statt die Seite zu scrollen */
+}
+.viewer__hint { margin: 0; font-size: 0.8rem; text-align: center; }
+.viewer__names { margin: 0; font-size: 0.85rem; text-align: center; }
